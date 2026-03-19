@@ -9,12 +9,14 @@ class KaijuAttack extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['kaiju_id', 'name', 'damage_min', 'damage_max', 'description', 'order'];
+    protected $fillable = ['kaiju_id', 'name', 'damage_min', 'damage_max', 'cooldown', 'charge_cost', 'description', 'order'];
 
     protected $casts = [
-        'damage_min' => 'float',
-        'damage_max' => 'float',
-        'order'      => 'integer',
+        'damage_min'  => 'float',
+        'damage_max'  => 'float',
+        'cooldown'    => 'float',
+        'charge_cost' => 'float',
+        'order'       => 'integer',
     ];
 
     public function kaiju()

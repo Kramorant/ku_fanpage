@@ -29,10 +29,12 @@ class AdminKaijuController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $validated = $request->validate([
-            'name'        => ['required', 'string', 'max:255'],
-            'slug'        => ['required', 'string', 'max:255', 'unique:kaijus,slug'],
-            'description' => ['nullable', 'string'],
-            'image'       => ['nullable', 'image', 'max:4096'],
+            'name'                    => ['required', 'string', 'max:255'],
+            'slug'                    => ['required', 'string', 'max:255', 'unique:kaijus,slug'],
+            'description'             => ['nullable', 'string'],
+            'image'                   => ['nullable', 'image', 'max:4096'],
+            'attacks.*.cooldown'      => ['nullable', 'numeric', 'min:0'],
+            'attacks.*.charge_cost'   => ['nullable', 'numeric', 'min:0'],
         ]);
 
         if ($request->hasFile('image')) {
@@ -56,10 +58,12 @@ class AdminKaijuController extends Controller
     public function update(Request $request, Kaiju $kaiju): RedirectResponse
     {
         $validated = $request->validate([
-            'name'        => ['required', 'string', 'max:255'],
-            'slug'        => ['required', 'string', 'max:255', 'unique:kaijus,slug,' . $kaiju->id],
-            'description' => ['nullable', 'string'],
-            'image'       => ['nullable', 'image', 'max:4096'],
+            'name'                    => ['required', 'string', 'max:255'],
+            'slug'                    => ['required', 'string', 'max:255', 'unique:kaijus,slug,' . $kaiju->id],
+            'description'             => ['nullable', 'string'],
+            'image'                   => ['nullable', 'image', 'max:4096'],
+            'attacks.*.cooldown'      => ['nullable', 'numeric', 'min:0'],
+            'attacks.*.charge_cost'   => ['nullable', 'numeric', 'min:0'],
         ]);
 
         if ($request->hasFile('image')) {
@@ -110,6 +114,8 @@ class AdminKaijuController extends Controller
                 'name'        => $atk['name'],
                 'damage_min'  => $atk['damage_min'] ?? 0,
                 'damage_max'  => $atk['damage_max'] ?? 0,
+                'cooldown'    => isset($atk['cooldown']) && $atk['cooldown'] !== '' ? $atk['cooldown'] : null,
+                'charge_cost' => isset($atk['charge_cost']) && $atk['charge_cost'] !== '' ? $atk['charge_cost'] : null,
                 'description' => $atk['description'] ?? '',
                 'order'       => $idx,
             ]);
