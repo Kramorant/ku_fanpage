@@ -33,6 +33,7 @@ class Kaiju extends Model
 
     public function comments()
     {
-        return $this->hasMany(Comment::class, 'post_id')->where('post_type', 'kaiju');
+        return $this->hasMany(Comment::class, 'post_id')
+                    ->where('post_type', 'kaiju');
     }
 }

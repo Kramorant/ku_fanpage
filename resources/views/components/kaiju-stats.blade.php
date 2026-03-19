@@ -37,9 +37,7 @@
                     <p class="text-secondary fst-italic mb-0">No description available.</p>
                 @endif
             </div>
-            <div class="modal-footer" style="border-top:1px solid #3a3a3a">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            </div>
+
         </div>
     </div>
 </div>

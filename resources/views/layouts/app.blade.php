@@ -205,7 +205,7 @@
 </nav>
 
 <!-- Flash messages -->
-<div class="container mt-3">
+<div class="container">
     @if(session('success'))
         <div class="alert alert-ku-success alert-dismissible fade show" role="alert">
             <i class="bi bi-check-circle me-2"></i>{{ session('success') }}
@@ -231,7 +231,7 @@
 </div>
 
 <!-- Page content -->
-<main class="py-4">
+<main class="pt-0 pb-4">
     @yield('content')
 </main>
 
