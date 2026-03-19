@@ -161,19 +161,27 @@
         row.className = 'row g-2 mb-3 align-items-end p-2 rounded-2';
         row.style.cssText = 'background:#252525; border:1px solid #3a3a3a';
         row.innerHTML = `
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <label class="form-label text-secondary small">Attack Name</label>
                 <input type="text" name="attacks[${idx}][name]" class="form-control" required>
             </div>
-            <div class="col-md-2">
-                <label class="form-label text-secondary small">Damage Min</label>
+            <div class="col-md-1">
+                <label class="form-label text-secondary small">DMG Min</label>
                 <input type="number" step="0.01" name="attacks[${idx}][damage_min]" class="form-control" placeholder="0.00">
             </div>
-            <div class="col-md-2">
-                <label class="form-label text-secondary small">Damage Max</label>
+            <div class="col-md-1">
+                <label class="form-label text-secondary small">DMG Max</label>
                 <input type="number" step="0.01" name="attacks[${idx}][damage_max]" class="form-control" placeholder="0.00">
             </div>
-            <div class="col-md-3">
+            <div class="col-md-1">
+                <label class="form-label text-secondary small">Cooldown (s)</label>
+                <input type="number" step="0.01" name="attacks[${idx}][cooldown]" class="form-control" placeholder="0.00">
+            </div>
+            <div class="col-md-1">
+                <label class="form-label text-secondary small">Charge</label>
+                <input type="number" step="0.01" name="attacks[${idx}][charge_cost]" class="form-control" placeholder="0.00">
+            </div>
+            <div class="col-md-4">
                 <label class="form-label text-secondary small">Description</label>
                 <input type="text" name="attacks[${idx}][description]" class="form-control">
             </div>
