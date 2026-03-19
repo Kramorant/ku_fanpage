@@ -16,9 +16,9 @@ class Kaiju extends Model
         return 'slug';
     }
 
-    public function stats()
+    public function baseStat()
     {
-        return $this->hasMany(KaijuStat::class);
+        return $this->hasOne(KaijuBaseStat::class);
     }
 
     public function attacks()
@@ -31,13 +31,8 @@ class Kaiju extends Model
         return $this->hasMany(KaijuSpeed::class);
     }
 
-    public function regen()
-    {
-        return $this->hasMany(KaijuRegen::class);
-    }
-
     public function comments()
     {
-        return $this->hasMany(Comment::class)->where('post_type', 'kaiju');
+        return $this->hasMany(Comment::class, 'post_id')->where('post_type', 'kaiju');
     }
 }

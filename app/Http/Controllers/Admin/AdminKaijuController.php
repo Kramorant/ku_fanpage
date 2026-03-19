@@ -5,9 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Kaiju;
 use App\Models\KaijuAttack;
-use App\Models\KaijuRegen;
+use App\Models\KaijuBaseStat;
 use App\Models\KaijuSpeed;
-use App\Models\KaijuStat;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -49,7 +48,7 @@ class AdminKaijuController extends Controller
 
     public function edit(Kaiju $kaiju): View
     {
-        $kaiju->load(['stats', 'attacks', 'speeds', 'regen']);
+        $kaiju->load(['baseStat', 'attacks', 'speeds']);
 
         return view('admin.kaiju.edit', compact('kaiju'));
     }
@@ -89,17 +88,16 @@ class AdminKaijuController extends Controller
 
     private function syncRelations(Request $request, Kaiju $kaiju): void
     {
-        // Stats
-        foreach (['strength', 'speed', 'health', 'regen'] as $type) {
-            $statData = $request->input("stats.{$type}", []);
-            $stat = $kaiju->stats()->firstOrNew(['stat_type' => $type]);
-            $stat->current_level = $statData['current_level'] ?? 0;
-            for ($i = 1; $i <= 10; $i++) {
-                $stat->{"val_{$i}"} = $statData["val_{$i}"] ?? null;
-            }
-            $stat->kaiju_id = $kaiju->id;
-            $stat->save();
-        }
+        // Base Stats (health & regen)
+        KaijuBaseStat::updateOrCreate(
+            ['kaiju_id' => $kaiju->id],
+            [
+                'health_min' => $request->input('health_min', 0),
+                'health_max' => $request->input('health_max', 0),
+                'regen_min'  => $request->input('regen_min', 0),
+                'regen_max'  => $request->input('regen_max', 0),
+            ]
+        );
 
         // Attacks — delete all then recreate
         $kaiju->attacks()->delete();
@@ -110,27 +108,26 @@ class AdminKaijuController extends Controller
             KaijuAttack::create([
                 'kaiju_id'    => $kaiju->id,
                 'name'        => $atk['name'],
-                'damage'      => $atk['damage'] ?? 0,
+                'damage_min'  => $atk['damage_min'] ?? 0,
+                'damage_max'  => $atk['damage_max'] ?? 0,
                 'description' => $atk['description'] ?? '',
                 'order'       => $idx,
             ]);
         }
 
         // Speed
-        $speedData = $request->input('speed', []);
-        $speed = $kaiju->speeds()->firstOrNew([]);
-        $speed->kaiju_id        = $kaiju->id;
-        $speed->walking_speed   = $speedData['walking_speed'] ?? 0;
-        $speed->sprinting_speed = $speedData['sprinting_speed'] ?? 0;
-        $speed->swimming_speed  = $speedData['swimming_speed'] ?? 0;
-        $speed->save();
-
-        // Regen
-        $regenData = $request->input('regen_data', []);
-        $regen = $kaiju->regen()->firstOrNew([]);
-        $regen->kaiju_id          = $kaiju->id;
-        $regen->health_regen_pct  = $regenData['health_regen_pct'] ?? 0;
-        $regen->charge_regen_pct  = $regenData['charge_regen_pct'] ?? 0;
-        $regen->save();
+        KaijuSpeed::updateOrCreate(
+            ['kaiju_id' => $kaiju->id],
+            [
+                'walking_min'   => $request->input('speed.walking_min', 0),
+                'walking_max'   => $request->input('speed.walking_max', 0),
+                'sprinting_min' => $request->input('speed.sprinting_min', 0),
+                'sprinting_max' => $request->input('speed.sprinting_max', 0),
+                'swimming_min'  => $request->input('speed.swimming_min', 0),
+                'swimming_max'  => $request->input('speed.swimming_max', 0),
+                'flying_min'    => $request->input('speed.flying_min') !== '' ? $request->input('speed.flying_min') : null,
+                'flying_max'    => $request->input('speed.flying_max') !== '' ? $request->input('speed.flying_max') : null,
+            ]
+        );
     }
 }
