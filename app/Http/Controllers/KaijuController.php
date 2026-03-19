@@ -16,7 +16,7 @@ class KaijuController extends Controller
 
     public function show(Kaiju $kaiju): View
     {
-        $kaiju->load(['stats', 'attacks', 'speeds', 'regen', 'comments.user']);
+        $kaiju->load(['baseStat', 'attacks', 'speeds', 'comments.user']);
 
         return view('wiki.show', compact('kaiju'));
     }

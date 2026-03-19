@@ -48,129 +48,133 @@
             </div>
         </div>
 
-        {{-- ── Stats ───────────────────────────────────────────────────── --}}
-        @foreach([
-            ['key' => 'strength', 'label' => 'Strength', 'icon' => 'bi-lightning-charge-fill'],
-            ['key' => 'speed',    'label' => 'Speed',    'icon' => 'bi-wind'],
-            ['key' => 'health',   'label' => 'Health',   'icon' => 'bi-heart-fill'],
-            ['key' => 'regen',    'label' => 'Regen',    'icon' => 'bi-arrow-repeat'],
-        ] as $statDef)
-        @php
-            $stat = $kaiju->stats->firstWhere('stat_type', $statDef['key']);
-        @endphp
+        {{-- ── Health & Regen ──────────────────────────────────────────── --}}
+        @php $baseStat = $kaiju->baseStat; @endphp
         <div class="card-ku p-4 rounded-3 mb-4">
             <h5 class="fw-bold mb-3" style="color:var(--ku-accent)">
-                <i class="bi {{ $statDef['icon'] }} me-2"></i>{{ $statDef['label'] }} Stat
+                <i class="bi bi-heart-fill me-2"></i>Health &amp; Regen
             </h5>
-            <div class="row g-2 mb-3">
+            <div class="row g-3">
                 <div class="col-md-3">
-                    <label class="form-label text-secondary small">Current Level (0–10)</label>
-                    <input type="number" name="stats[{{ $statDef['key'] }}][current_level]"
-                           class="form-control" min="0" max="10"
-                           value="{{ old("stats.{$statDef['key']}.current_level", $stat?->current_level ?? 0) }}">
+                    <label class="form-label text-secondary">Health Min</label>
+                    <input type="number" step="0.01" name="health_min" class="form-control"
+                           value="{{ old('health_min', $baseStat?->health_min ?? 0) }}" placeholder="0.00">
                 </div>
-            </div>
-            <div class="row g-2">
-                @for($i = 1; $i <= 10; $i++)
-                <div class="col-6 col-md-2">
-                    <label class="form-label text-secondary small">Val {{ $i }}</label>
-                    <input type="number" step="0.01"
-                           name="stats[{{ $statDef['key'] }}][val_{{ $i }}]"
-                           class="form-control"
-                           value="{{ old("stats.{$statDef['key']}.val_{$i}", $stat?->{"val_{$i}"} ?? '') }}"
-                           placeholder="0.00">
+                <div class="col-md-3">
+                    <label class="form-label text-secondary">Health Max</label>
+                    <input type="number" step="0.01" name="health_max" class="form-control"
+                           value="{{ old('health_max', $baseStat?->health_max ?? 0) }}" placeholder="0.00">
                 </div>
-                @endfor
+                <div class="col-md-3">
+                    <label class="form-label text-secondary">Regen Min (%)</label>
+                    <input type="number" step="0.01" name="regen_min" class="form-control"
+                           value="{{ old('regen_min', $baseStat?->regen_min ?? 0) }}" placeholder="0.00">
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label text-secondary">Regen Max (%)</label>
+                    <input type="number" step="0.01" name="regen_max" class="form-control"
+                           value="{{ old('regen_max', $baseStat?->regen_max ?? 0) }}" placeholder="0.00">
+                </div>
             </div>
         </div>
-        @endforeach
 
         {{-- ── Attacks ──────────────────────────────────────────────────── --}}
-        <div class="card-ku p-4 rounded-3 mb-4" x-data="attacksManager()" x-init="init()">
+        <div class="card-ku p-4 rounded-3 mb-4" id="attacksSection">
             <div class="d-flex align-items-center justify-content-between mb-3">
                 <h5 class="fw-bold mb-0" style="color:var(--ku-accent)">
                     <i class="bi bi-lightning-fill me-2"></i>Attacks
                 </h5>
-                <button type="button" class="btn btn-ku btn-sm" @click="addAttack()">
+                <button type="button" class="btn btn-ku btn-sm" onclick="addAttackRow()">
                     <i class="bi bi-plus-lg me-1"></i>Add Attack
                 </button>
             </div>
-
-            <template x-for="(atk, idx) in attacks" :key="idx">
+            <div id="attackRows">
+                @foreach($kaiju->attacks as $idx => $attack)
                 <div class="row g-2 mb-3 align-items-end p-2 rounded-2"
                      style="background:#252525; border:1px solid #3a3a3a">
                     <div class="col-md-4">
                         <label class="form-label text-secondary small">Attack Name</label>
-                        <input type="text" :name="`attacks[${idx}][name]`"
-                               class="form-control" x-model="atk.name" required>
+                        <input type="text" name="attacks[{{ $idx }}][name]"
+                               class="form-control" value="{{ $attack->name }}" required>
                     </div>
                     <div class="col-md-2">
-                        <label class="form-label text-secondary small">Damage</label>
-                        <input type="number" step="0.01" :name="`attacks[${idx}][damage]`"
-                               class="form-control" x-model="atk.damage" placeholder="0.00">
+                        <label class="form-label text-secondary small">Damage Min</label>
+                        <input type="number" step="0.01" name="attacks[{{ $idx }}][damage_min]"
+                               class="form-control" value="{{ $attack->damage_min }}" placeholder="0.00">
                     </div>
-                    <div class="col-md-5">
+                    <div class="col-md-2">
+                        <label class="form-label text-secondary small">Damage Max</label>
+                        <input type="number" step="0.01" name="attacks[{{ $idx }}][damage_max]"
+                               class="form-control" value="{{ $attack->damage_max }}" placeholder="0.00">
+                    </div>
+                    <div class="col-md-3">
                         <label class="form-label text-secondary small">Description</label>
-                        <input type="text" :name="`attacks[${idx}][description]`"
-                               class="form-control" x-model="atk.description">
+                        <input type="text" name="attacks[{{ $idx }}][description]"
+                               class="form-control" value="{{ $attack->description }}">
                     </div>
                     <div class="col-md-1 text-end">
                         <button type="button" class="btn btn-outline-danger btn-sm"
-                                @click="removeAttack(idx)" title="Remove">
+                                onclick="this.closest('.row').remove(); checkEmpty();" title="Remove">
                             <i class="bi bi-trash"></i>
                         </button>
                     </div>
                 </div>
-            </template>
-
-            <p x-show="attacks.length === 0" class="text-secondary fst-italic mb-0">
+                @endforeach
+            </div>
+            <p id="noAttacksMsg" class="text-secondary fst-italic mb-0"
+               style="{{ $kaiju->attacks->isNotEmpty() ? 'display:none' : '' }}">
                 No attacks yet. Click "Add Attack" to add one.
             </p>
         </div>
 
-        {{-- ── Speed ────────────────────────────────────────────────────── --}}
+        {{-- ── Movement Speeds ──────────────────────────────────────────── --}}
         @php $speedRow = $kaiju->speeds->first(); @endphp
         <div class="card-ku p-4 rounded-3 mb-4">
             <h5 class="fw-bold mb-3" style="color:var(--ku-accent)">
                 <i class="bi bi-wind me-2"></i>Movement Speeds
             </h5>
-            <div class="row g-3">
-                @foreach([
-                    ['field' => 'walking_speed',   'label' => 'Walking Speed (u/s)'],
-                    ['field' => 'sprinting_speed',  'label' => 'Sprinting Speed (u/s)'],
-                    ['field' => 'swimming_speed',   'label' => 'Swimming Speed (u/s)'],
-                ] as $sp)
+            @foreach([
+                ['key' => 'walking',   'label' => 'Walking'],
+                ['key' => 'sprinting', 'label' => 'Sprinting'],
+                ['key' => 'swimming',  'label' => 'Swimming'],
+            ] as $sp)
+            <div class="row g-2 mb-2">
+                <div class="col-md-2 d-flex align-items-end pb-1">
+                    <span class="text-secondary">{{ $sp['label'] }}</span>
+                </div>
                 <div class="col-md-4">
-                    <label class="form-label text-secondary">{{ $sp['label'] }}</label>
-                    <input type="number" step="0.01" name="speed[{{ $sp['field'] }}]"
+                    <label class="form-label text-secondary small">Min (u/s)</label>
+                    <input type="number" step="0.01" name="speed[{{ $sp['key'] }}_min]"
                            class="form-control"
-                           value="{{ old("speed.{$sp['field']}", $speedRow?->{$sp['field']} ?? '') }}"
+                           value="{{ old("speed.{$sp['key']}_min", $speedRow?->{$sp['key'].'_min'} ?? 0) }}"
                            placeholder="0.00">
                 </div>
-                @endforeach
+                <div class="col-md-4">
+                    <label class="form-label text-secondary small">Max (u/s)</label>
+                    <input type="number" step="0.01" name="speed[{{ $sp['key'] }}_max]"
+                           class="form-control"
+                           value="{{ old("speed.{$sp['key']}_max", $speedRow?->{$sp['key'].'_max'} ?? 0) }}"
+                           placeholder="0.00">
+                </div>
             </div>
-        </div>
-
-        {{-- ── Regen ────────────────────────────────────────────────────── --}}
-        @php $regenRow = $kaiju->regen->first(); @endphp
-        <div class="card-ku p-4 rounded-3 mb-4">
-            <h5 class="fw-bold mb-3" style="color:var(--ku-accent)">
-                <i class="bi bi-arrow-repeat me-2"></i>Regeneration
-            </h5>
-            <div class="row g-3">
-                <div class="col-md-4">
-                    <label class="form-label text-secondary">Health Regen (%/s)</label>
-                    <input type="number" step="0.01" name="regen_data[health_regen_pct]"
-                           class="form-control"
-                           value="{{ old('regen_data.health_regen_pct', $regenRow?->health_regen_pct ?? '') }}"
-                           placeholder="0.00">
+            @endforeach
+            <div class="row g-2 mb-2">
+                <div class="col-md-2 d-flex align-items-end pb-1">
+                    <span class="text-secondary">Flying <small class="text-muted">(optional)</small></span>
                 </div>
                 <div class="col-md-4">
-                    <label class="form-label text-secondary">Charge Regen (%/s)</label>
-                    <input type="number" step="0.01" name="regen_data[charge_regen_pct]"
+                    <label class="form-label text-secondary small">Min (u/s)</label>
+                    <input type="number" step="0.01" name="speed[flying_min]"
                            class="form-control"
-                           value="{{ old('regen_data.charge_regen_pct', $regenRow?->charge_regen_pct ?? '') }}"
-                           placeholder="0.00">
+                           value="{{ old('speed.flying_min', $speedRow?->flying_min) }}"
+                           placeholder="Leave blank if can't fly">
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label text-secondary small">Max (u/s)</label>
+                    <input type="number" step="0.01" name="speed[flying_max]"
+                           class="form-control"
+                           value="{{ old('speed.flying_max', $speedRow?->flying_max) }}"
+                           placeholder="Leave blank if can't fly">
                 </div>
             </div>
         </div>
@@ -187,17 +191,42 @@
 
 @push('scripts')
 <script>
-function attacksManager() {
-    return {
-        attacks: @json($kaiju->attacks->map(fn($a) => ['name' => $a->name, 'damage' => $a->damage, 'description' => $a->description])),
-        init() {},
-        addAttack() {
-            this.attacks.push({ name: '', damage: '', description: '' });
-        },
-        removeAttack(idx) {
-            this.attacks.splice(idx, 1);
-        }
-    };
-}
+    let attackIndex = {{ $kaiju->attacks->count() }};
+
+    function addAttackRow() {
+        document.getElementById('noAttacksMsg').style.display = 'none';
+        const idx = attackIndex++;
+        const row = document.createElement('div');
+        row.className = 'row g-2 mb-3 align-items-end p-2 rounded-2';
+        row.style.cssText = 'background:#252525; border:1px solid #3a3a3a';
+        row.innerHTML = `
+            <div class="col-md-4">
+                <label class="form-label text-secondary small">Attack Name</label>
+                <input type="text" name="attacks[${idx}][name]" class="form-control" required>
+            </div>
+            <div class="col-md-2">
+                <label class="form-label text-secondary small">Damage Min</label>
+                <input type="number" step="0.01" name="attacks[${idx}][damage_min]" class="form-control" placeholder="0.00">
+            </div>
+            <div class="col-md-2">
+                <label class="form-label text-secondary small">Damage Max</label>
+                <input type="number" step="0.01" name="attacks[${idx}][damage_max]" class="form-control" placeholder="0.00">
+            </div>
+            <div class="col-md-3">
+                <label class="form-label text-secondary small">Description</label>
+                <input type="text" name="attacks[${idx}][description]" class="form-control">
+            </div>
+            <div class="col-md-1 text-end">
+                <button type="button" class="btn btn-outline-danger btn-sm" onclick="this.closest('.row').remove(); checkEmpty();" title="Remove">
+                    <i class="bi bi-trash"></i>
+                </button>
+            </div>`;
+        document.getElementById('attackRows').appendChild(row);
+    }
+
+    function checkEmpty() {
+        const rows = document.getElementById('attackRows').querySelectorAll('.row');
+        document.getElementById('noAttacksMsg').style.display = rows.length === 0 ? '' : 'none';
+    }
 </script>
 @endpush

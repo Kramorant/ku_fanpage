@@ -9,12 +9,23 @@ class KaijuSpeed extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['kaiju_id', 'walking_speed', 'sprinting_speed', 'swimming_speed'];
+    protected $fillable = [
+        'kaiju_id',
+        'walking_min',   'walking_max',
+        'sprinting_min', 'sprinting_max',
+        'swimming_min',  'swimming_max',
+        'flying_min',    'flying_max',
+    ];
 
     protected $casts = [
-        'walking_speed'   => 'float',
-        'sprinting_speed' => 'float',
-        'swimming_speed'  => 'float',
+        'walking_min'   => 'float',
+        'walking_max'   => 'float',
+        'sprinting_min' => 'float',
+        'sprinting_max' => 'float',
+        'swimming_min'  => 'float',
+        'swimming_max'  => 'float',
+        'flying_min'    => 'float',
+        'flying_max'    => 'float',
     ];
 
     public function kaiju()
