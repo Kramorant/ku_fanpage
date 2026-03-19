@@ -1,0 +1,57 @@
+
+
+<?php $__env->startSection('title', 'Events'); ?>
+
+<?php $__env->startSection('content'); ?>
+<div class="container">
+    <h1 class="fw-bold mb-4" style="color:var(--ku-accent)">
+        <i class="bi bi-calendar-event me-2"></i>Game Events
+    </h1>
+
+    <?php if($events->isEmpty()): ?>
+        <p class="text-secondary text-center py-5">No events posted yet.</p>
+    <?php else: ?>
+    <div class="row g-4">
+        <?php $__currentLoopData = $events; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $event): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+        <div class="col-md-6 col-lg-4">
+            <a href="<?php echo e(route('events.show', $event)); ?>" class="text-decoration-none">
+                <div class="card-ku h-100 rounded-3 overflow-hidden"
+                     style="transition:.2s"
+                     onmouseover="this.style.transform='translateY(-4px)';this.style.borderColor='var(--ku-accent)'"
+                     onmouseout="this.style.transform='none';this.style.borderColor='var(--ku-border)'">
+
+                    <?php if($event->image): ?>
+                        <img src="<?php echo e(Storage::url($event->image)); ?>"
+                             class="w-100" style="height:180px; object-fit:cover" alt="<?php echo e($event->title); ?>">
+                    <?php else: ?>
+                        <div class="d-flex align-items-center justify-content-center"
+                             style="height:140px; background:#111">
+                            <i class="bi bi-calendar-event" style="font-size:3rem; color:var(--ku-border)"></i>
+                        </div>
+                    <?php endif; ?>
+
+                    <div class="p-3">
+                        <span class="badge mb-2" style="background:var(--ku-accent); color:#111">
+                            <i class="bi bi-clock me-1"></i><?php echo e($event->event_date->format('M j, Y')); ?>
+
+                        </span>
+                        <h5 class="fw-bold mb-0" style="color:var(--ku-accent)"><?php echo e($event->title); ?></h5>
+                        <p class="text-secondary small mt-1 mb-0" style="
+                            display: -webkit-box;
+                            -webkit-line-clamp: 2;
+                            -webkit-box-orient: vertical;
+                            overflow: hidden;">
+                            <?php echo e(strip_tags($event->description)); ?>
+
+                        </p>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+    </div>
+    <?php endif; ?>
+</div>
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.app', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\xampp\htdocs\ku_fanpage\resources\views/events/index.blade.php ENDPATH**/ ?>

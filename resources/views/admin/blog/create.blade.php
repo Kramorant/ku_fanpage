@@ -50,7 +50,7 @@
 
 @push('scripts')
 {{-- Replace 'no-api-key' with your TinyMCE API key from https://www.tiny.cloud (free tier available). --}}
-<script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
+<script src="https://cdn.tiny.cloud/1/wvqz9t3knu1xumbz1ay0dwrplu5hc6paet69xo1h1the13y1/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
 <script>
 tinymce.init({
     selector: '#tinymce-content',
