@@ -20,12 +20,28 @@
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
-                <div class="d-flex align-items-center gap-3 mb-3">
+                <div class="d-flex flex-wrap gap-2 mb-3">
                     <span class="badge fs-6 px-3 py-2"
                           style="background:var(--ku-accent); color:#111; font-weight:700">
                         <i class="bi bi-lightning-fill me-1"></i>
                         <?php echo e(number_format($attack->damage_min, 2)); ?> – <?php echo e(number_format($attack->damage_max, 2)); ?> DMG
                     </span>
+
+                    <?php if($attack->cooldown): ?>
+                    <span class="badge fs-6 px-3 py-2"
+                          style="background:#2a2a2a; color:#e0e0e0; border:1px solid #3a3a3a; font-weight:600">
+                        <i class="bi bi-hourglass-split me-1" style="color:var(--ku-accent)"></i>
+                        <?php echo e(number_format($attack->cooldown, 2)); ?>s CD
+                    </span>
+                    <?php endif; ?>
+
+                    <?php if($attack->charge_cost): ?>
+                    <span class="badge fs-6 px-3 py-2"
+                          style="background:#2a2a2a; color:#e0e0e0; border:1px solid #3a3a3a; font-weight:600">
+                        <i class="bi bi-battery-charging me-1" style="color:var(--ku-accent)"></i>
+                        <?php echo e(number_format($attack->charge_cost, 2)); ?> Charge
+                    </span>
+                    <?php endif; ?>
                 </div>
                 <?php if($attack->description): ?>
                     <p class="text-secondary mb-0"><?php echo e($attack->description); ?></p>
