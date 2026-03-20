@@ -10,6 +10,34 @@
     $speedRow = $kaiju->speeds->first();
 @endphp
 
+{{-- ─── Title Detail Modals ──────────────────────────────────────────────── --}}
+@foreach($kaiju->titles as $title)
+<div class="modal fade" id="titleModal{{ $title->id }}" tabindex="-1"
+     aria-labelledby="titleModalLabel{{ $title->id }}" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content" style="background:#2a2a2a; border:1px solid #3a3a3a; color:#e0e0e0">
+            <div class="modal-header" style="border-bottom:1px solid #3a3a3a">
+                <h5 class="modal-title fw-bold" id="titleModalLabel{{ $title->id }}"
+                    style="color:var(--ku-accent)">
+                    <i class="bi bi-trophy-fill me-2"></i>{{ $title->name }}
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <h6 class="fw-bold text-uppercase mb-2" style="color:var(--ku-accent); font-size:.75rem; letter-spacing:.08em">
+                    <i class="bi bi-list-check me-1"></i>Unlock Requirements
+                </h6>
+                @if($title->requirement)
+                    <p class="text-secondary mb-0">{{ $title->requirement }}</p>
+                @else
+                    <p class="text-secondary fst-italic mb-0">No requirements listed.</p>
+                @endif
+            </div>
+        </div>
+    </div>
+</div>
+@endforeach
+
 {{-- ─── Attack Detail Modals ────────────────────────────────────────────────── --}}
 @foreach($kaiju->attacks as $attack)
 <div class="modal fade" id="attackModal{{ $attack->id }}" tabindex="-1"
@@ -58,6 +86,35 @@
     </div>
 </div>
 @endforeach
+
+{{-- ─── Titles Panel ──────────────────────────────────────────────────────── --}}
+@if($kaiju->titles->isNotEmpty())
+<div class="ku-titles-panel rounded-3 overflow-hidden mb-3"
+     style="background:#1a1a1a; border:1px solid #3a3a3a">
+    <div class="px-3 pt-3 pb-1" style="border-bottom:1px solid #3a3a3a">
+        <h5 class="mb-0 fw-bold" style="color:var(--ku-accent)">
+            <i class="bi bi-trophy-fill me-2"></i>Titles
+        </h5>
+    </div>
+    <div class="p-3">
+        <div class="d-flex flex-wrap gap-2">
+            @foreach($kaiju->titles as $title)
+            <button
+                type="button"
+                class="btn px-3 py-2 rounded-2 fw-semibold border-0"
+                style="background:#252525; color:var(--ku-accent); transition:.15s; cursor:pointer"
+                onmouseover="this.style.background='#2f2f2f'"
+                onmouseout="this.style.background='#252525'"
+                data-bs-toggle="modal"
+                data-bs-target="#titleModal{{ $title->id }}"
+            >
+                <i class="bi bi-trophy me-1"></i>{{ $title->name }}
+            </button>
+            @endforeach
+        </div>
+    </div>
+</div>
+@endif
 
 {{-- ─── Main Stats Panel ─────────────────────────────────────────────────── --}}
 <div class="ku-stats-panel rounded-3 overflow-hidden"

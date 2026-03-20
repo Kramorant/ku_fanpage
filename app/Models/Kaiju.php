@@ -31,6 +31,11 @@ class Kaiju extends Model
         return $this->hasMany(KaijuSpeed::class);
     }
 
+    public function titles()
+    {
+        return $this->hasMany(KaijuTitle::class)->orderBy('order');
+    }
+
     public function comments()
     {
         return $this->hasMany(Comment::class, 'post_id')

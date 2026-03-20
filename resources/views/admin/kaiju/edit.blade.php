@@ -189,6 +189,46 @@
             </div>
         </div>
 
+        {{-- ── Titles ──────────────────────────────────────────────── --}}
+        <div class="card-ku p-4 rounded-3 mb-4">
+            <div class="d-flex align-items-center justify-content-between mb-3">
+                <h5 class="fw-bold mb-0" style="color:var(--ku-accent)">
+                    <i class="bi bi-trophy-fill me-2"></i>Titles
+                </h5>
+                <button type="button" class="btn btn-ku btn-sm" onclick="addTitleRow()">
+                    <i class="bi bi-plus-lg me-1"></i>Add Title
+                </button>
+            </div>
+            <div id="titleRows">
+                @foreach($kaiju->titles as $idx => $title)
+                <div class="row g-2 mb-3 align-items-end p-2 rounded-2"
+                     style="background:#252525; border:1px solid #3a3a3a">
+                    <div class="col-md-4">
+                        <label class="form-label text-secondary small">Title Name</label>
+                        <input type="text" name="titles[{{ $idx }}][name]"
+                               class="form-control" value="{{ $title->name }}" required>
+                    </div>
+                    <div class="col-md-7">
+                        <label class="form-label text-secondary small">Unlock Requirement</label>
+                        <input type="text" name="titles[{{ $idx }}][requirement]"
+                               class="form-control" value="{{ $title->requirement }}"
+                               placeholder="How to unlock this title...">
+                    </div>
+                    <div class="col-md-1 text-end">
+                        <button type="button" class="btn btn-outline-danger btn-sm"
+                                onclick="this.closest('.row').remove(); checkTitlesEmpty();" title="Remove">
+                            <i class="bi bi-trash"></i>
+                        </button>
+                    </div>
+                </div>
+                @endforeach
+            </div>
+            <p id="noTitlesMsg" class="text-secondary fst-italic mb-0"
+               style="{{ $kaiju->titles->isNotEmpty() ? 'display:none' : '' }}">
+                No titles yet. Click "Add Title" to add one.
+            </p>
+        </div>
+
         <div class="d-flex gap-2">
             <button type="submit" class="btn btn-ku fw-bold px-4">
                 <i class="bi bi-floppy-fill me-1"></i>Save Changes
@@ -245,6 +285,36 @@
     function checkEmpty() {
         const rows = document.getElementById('attackRows').querySelectorAll('.row');
         document.getElementById('noAttacksMsg').style.display = rows.length === 0 ? '' : 'none';
+    }
+
+    let titleIndex = {{ $kaiju->titles->count() }};
+
+    function addTitleRow() {
+        document.getElementById('noTitlesMsg').style.display = 'none';
+        const idx = titleIndex++;
+        const row = document.createElement('div');
+        row.className = 'row g-2 mb-3 align-items-end p-2 rounded-2';
+        row.style.cssText = 'background:#252525; border:1px solid #3a3a3a';
+        row.innerHTML = `
+            <div class="col-md-4">
+                <label class="form-label text-secondary small">Title Name</label>
+                <input type="text" name="titles[${idx}][name]" class="form-control" required>
+            </div>
+            <div class="col-md-7">
+                <label class="form-label text-secondary small">Unlock Requirement</label>
+                <input type="text" name="titles[${idx}][requirement]" class="form-control" placeholder="How to unlock this title...">
+            </div>
+            <div class="col-md-1 text-end">
+                <button type="button" class="btn btn-outline-danger btn-sm" onclick="this.closest('.row').remove(); checkTitlesEmpty();" title="Remove">
+                    <i class="bi bi-trash"></i>
+                </button>
+            </div>`;
+        document.getElementById('titleRows').appendChild(row);
+    }
+
+    function checkTitlesEmpty() {
+        const rows = document.getElementById('titleRows').querySelectorAll('.row');
+        document.getElementById('noTitlesMsg').style.display = rows.length === 0 ? '' : 'none';
     }
 </script>
 @endpush

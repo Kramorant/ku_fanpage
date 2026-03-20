@@ -7,6 +7,7 @@ use App\Models\Kaiju;
 use App\Models\KaijuAttack;
 use App\Models\KaijuBaseStat;
 use App\Models\KaijuSpeed;
+use App\Models\KaijuTitle;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -50,7 +51,7 @@ class AdminKaijuController extends Controller
 
     public function edit(Kaiju $kaiju): View
     {
-        $kaiju->load(['baseStat', 'attacks', 'speeds']);
+        $kaiju->load(['baseStat', 'attacks', 'speeds', 'titles']);
 
         return view('admin.kaiju.edit', compact('kaiju'));
     }
@@ -117,6 +118,18 @@ class AdminKaijuController extends Controller
                 'cooldown'    => isset($atk['cooldown']) && $atk['cooldown'] !== '' ? $atk['cooldown'] : null,
                 'charge_cost' => isset($atk['charge_cost']) && $atk['charge_cost'] !== '' ? $atk['charge_cost'] : null,
                 'description' => $atk['description'] ?? '',
+                'order'       => $idx,
+            ]);
+        }
+
+        // Titles — delete all then recreate
+        $kaiju->titles()->delete();
+        foreach ($request->input('titles', []) as $idx => $title) {
+            if (empty($title['name'])) continue;
+            KaijuTitle::create([
+                'kaiju_id'    => $kaiju->id,
+                'name'        => $title['name'],
+                'requirement' => $title['requirement'] ?? null,
                 'order'       => $idx,
             ]);
         }
