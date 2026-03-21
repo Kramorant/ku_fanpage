@@ -36,6 +36,11 @@ class Kaiju extends Model
         return $this->hasMany(KaijuTitle::class)->orderBy('order');
     }
 
+    public function buildLevels()
+    {
+        return $this->hasMany(KaijuBuildLevel::class)->orderBy('level');
+    }
+
     public function comments()
     {
         return $this->hasMany(Comment::class, 'post_id')
