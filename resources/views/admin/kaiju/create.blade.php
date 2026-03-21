@@ -145,6 +145,46 @@
             </p>
         </div>
 
+        {{-- ── Build Creator Data ─────────────────────────────────────────── --}}
+        <div class="card-ku p-4 rounded-3 mb-4">
+            <h5 class="fw-bold mb-1" style="color:var(--ku-accent)">
+                <i class="bi bi-sliders me-2"></i>Build Creator Data
+            </h5>
+            <p class="text-secondary small mb-3">Values for each stat point level (0 = base, 10 = max). Damage is a multiplier (1.0 = no change, 1.5 = +50%).</p>
+            <div class="table-responsive">
+                <table class="table table-sm mb-0" style="color:#e0e0e0; background:transparent">
+                    <thead style="border-bottom:1px solid #3a3a3a">
+                        <tr>
+                            <th class="text-secondary" style="font-size:.75rem">LVL</th>
+                            <th class="text-secondary" style="font-size:.75rem">DMG ×</th>
+                            <th class="text-secondary" style="font-size:.75rem">Walk</th>
+                            <th class="text-secondary" style="font-size:.75rem">Sprint</th>
+                            <th class="text-secondary" style="font-size:.75rem">Swim</th>
+                            <th class="text-secondary" style="font-size:.75rem">Fly</th>
+                            <th class="text-secondary" style="font-size:.75rem">Health</th>
+                            <th class="text-secondary" style="font-size:.75rem">HP Regen%</th>
+                            <th class="text-secondary" style="font-size:.75rem">Charge Regen%</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for($lvl = 0; $lvl <= 10; $lvl++)
+                        <tr style="border-color:#2a2a2a">
+                            <td class="text-secondary fw-bold" style="vertical-align:middle">{{ $lvl }}</td>
+                            <td><input type="number" step="0.0001" name="build[{{ $lvl }}][damage_multiplier]" class="form-control form-control-sm" style="width:80px;background:#1a1a1a;border-color:#3a3a3a;color:#e0e0e0" value="1.0"></td>
+                            <td><input type="number" step="0.01"   name="build[{{ $lvl }}][walking]"           class="form-control form-control-sm" style="width:75px;background:#1a1a1a;border-color:#3a3a3a;color:#e0e0e0" placeholder="—"></td>
+                            <td><input type="number" step="0.01"   name="build[{{ $lvl }}][sprinting]"         class="form-control form-control-sm" style="width:75px;background:#1a1a1a;border-color:#3a3a3a;color:#e0e0e0" placeholder="—"></td>
+                            <td><input type="number" step="0.01"   name="build[{{ $lvl }}][swimming]"          class="form-control form-control-sm" style="width:75px;background:#1a1a1a;border-color:#3a3a3a;color:#e0e0e0" placeholder="—"></td>
+                            <td><input type="number" step="0.01"   name="build[{{ $lvl }}][flying]"            class="form-control form-control-sm" style="width:75px;background:#1a1a1a;border-color:#3a3a3a;color:#e0e0e0" placeholder="—"></td>
+                            <td><input type="number" step="0.01"   name="build[{{ $lvl }}][health]"            class="form-control form-control-sm" style="width:90px;background:#1a1a1a;border-color:#3a3a3a;color:#e0e0e0" placeholder="—"></td>
+                            <td><input type="number" step="0.001"  name="build[{{ $lvl }}][health_regen]"      class="form-control form-control-sm" style="width:85px;background:#1a1a1a;border-color:#3a3a3a;color:#e0e0e0" placeholder="—"></td>
+                            <td><input type="number" step="0.001"  name="build[{{ $lvl }}][charge_regen]"      class="form-control form-control-sm" style="width:85px;background:#1a1a1a;border-color:#3a3a3a;color:#e0e0e0" placeholder="—"></td>
+                        </tr>
+                        @endfor
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
         <button type="submit" class="btn btn-ku fw-bold px-4">
             <i class="bi bi-plus-lg me-1"></i>Create Kaiju
         </button>

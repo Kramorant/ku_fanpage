@@ -7,6 +7,7 @@ use App\Models\Kaiju;
 use App\Models\KaijuAttack;
 use App\Models\KaijuBaseStat;
 use App\Models\KaijuSpeed;
+use App\Models\KaijuBuildLevel;
 use App\Models\KaijuTitle;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -51,7 +52,7 @@ class AdminKaijuController extends Controller
 
     public function edit(Kaiju $kaiju): View
     {
-        $kaiju->load(['baseStat', 'attacks', 'speeds', 'titles']);
+        $kaiju->load(['baseStat', 'attacks', 'speeds', 'titles', 'buildLevels']);
 
         return view('admin.kaiju.edit', compact('kaiju'));
     }
@@ -148,5 +149,22 @@ class AdminKaijuController extends Controller
                 'flying_max'    => $request->input('speed.flying_max') !== '' ? $request->input('speed.flying_max') : null,
             ]
         );
+
+        // Build Levels — upsert all 11 levels (0-10)
+        foreach ($request->input('build', []) as $level => $vals) {
+            KaijuBuildLevel::updateOrCreate(
+                ['kaiju_id' => $kaiju->id, 'level' => (int)$level],
+                [
+                    'damage_multiplier' => isset($vals['damage_multiplier']) && $vals['damage_multiplier'] !== '' ? $vals['damage_multiplier'] : 1.0,
+                    'walking'           => isset($vals['walking'])      && $vals['walking']      !== '' ? $vals['walking']      : null,
+                    'sprinting'         => isset($vals['sprinting'])    && $vals['sprinting']    !== '' ? $vals['sprinting']    : null,
+                    'swimming'          => isset($vals['swimming'])     && $vals['swimming']     !== '' ? $vals['swimming']     : null,
+                    'flying'            => isset($vals['flying'])       && $vals['flying']       !== '' ? $vals['flying']       : null,
+                    'health'            => isset($vals['health'])       && $vals['health']       !== '' ? $vals['health']       : null,
+                    'health_regen'      => isset($vals['health_regen']) && $vals['health_regen'] !== '' ? $vals['health_regen'] : null,
+                    'charge_regen'      => isset($vals['charge_regen']) && $vals['charge_regen'] !== '' ? $vals['charge_regen'] : null,
+                ]
+            );
+        }
     }
 }
