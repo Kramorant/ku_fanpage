@@ -38,9 +38,6 @@
     {{-- Stats Component --}}
     @include('components.kaiju-stats', ['kaiju' => $kaiju])
 
-    {{-- Build Creator --}}
-    @include('components.kaiju-build-creator', ['kaiju' => $kaiju])
-
     {{-- Comments --}}
     <div class="mt-5">
         @include('components.comment-section', [
