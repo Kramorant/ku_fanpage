@@ -39,7 +39,7 @@
                     <div class="p-3">
                         <h5 class="fw-bold mb-1" style="color:var(--ku-accent)">{{ $creation->title }}</h5>
                         @if($creation->author)
-                            <p class="text-secondary small mb-1">by @{{ $creation->author }}</p>
+                            <p class="text-secondary small mb-1">by {{ $creation->author }}</p>
                         @endif
                         @if($creation->description)
                             <p class="text-secondary small mb-0" style="
