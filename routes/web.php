@@ -5,6 +5,8 @@ use App\Http\Controllers\KaijuController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\CommunityCreationController;
+use App\Http\Controllers\DeveloperMediaController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Admin\AdminDashboardController;
@@ -12,6 +14,8 @@ use App\Http\Controllers\Admin\AdminKaijuController;
 use App\Http\Controllers\Admin\AdminEventController;
 use App\Http\Controllers\Admin\AdminBlogController;
 use App\Http\Controllers\Admin\AdminCarouselController;
+use App\Http\Controllers\Admin\AdminCommunityCreationController;
+use App\Http\Controllers\Admin\AdminDeveloperMediaController;
 use Illuminate\Support\Facades\Route;
 
 // Public routes
@@ -22,6 +26,12 @@ Route::get('/events', [EventController::class, 'index'])->name('events.index');
 Route::get('/events/{event}', [EventController::class, 'show'])->name('events.show');
 Route::get('/blog', [BlogController::class, 'index'])->name('blog.index');
 Route::get('/blog/{post}', [BlogController::class, 'show'])->name('blog.show');
+
+Route::get('/community', [CommunityCreationController::class, 'index'])->name('community.index');
+Route::get('/community/{communityCreation}', [CommunityCreationController::class, 'show'])->name('community.show');
+
+Route::get('/developer-media', [DeveloperMediaController::class, 'index'])->name('developer.index');
+Route::get('/developer-media/{developerMedia}', [DeveloperMediaController::class, 'show'])->name('developer.show');
 
 // Guest-only auth routes
 Route::middleware('guest')->group(function () {
@@ -45,4 +55,6 @@ Route::prefix('admin')->middleware(['auth', 'is_admin'])->name('admin.')->group(
     Route::resource('events', AdminEventController::class);
     Route::resource('blog', AdminBlogController::class);
     Route::resource('carousel', AdminCarouselController::class);
+    Route::resource('community-creations', AdminCommunityCreationController::class)->names('community');
+    Route::resource('developer-media', AdminDeveloperMediaController::class)->names('developer-media');
 });

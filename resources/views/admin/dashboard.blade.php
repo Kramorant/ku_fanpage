@@ -17,6 +17,8 @@
             ['label' => 'Events',    'count' => $eventCount,    'icon' => 'bi-calendar-event',  'route' => 'admin.events.index'],
             ['label' => 'Blog Posts','count' => $blogCount,     'icon' => 'bi-newspaper',       'route' => 'admin.blog.index'],
             ['label' => 'Carousel',  'count' => $carouselCount, 'icon' => 'bi-images',          'route' => 'admin.carousel.index'],
+            ['label' => 'Community', 'count' => $communityCount,'icon' => 'bi-people-fill',     'route' => 'admin.community.index'],
+            ['label' => 'Dev Media', 'count' => $developerCount,'icon' => 'bi-camera-fill',     'route' => 'admin.developer-media.index'],
         ] as $card)
         <div class="col-sm-6 col-xl-3">
             <a href="{{ route($card['route']) }}" class="text-decoration-none">
@@ -59,6 +61,16 @@
         <div class="col-auto">
             <a href="{{ route('admin.carousel.index') }}" class="btn btn-outline-secondary">
                 <i class="bi bi-images me-1"></i>Manage Carousel
+            </a>
+        </div>
+        <div class="col-auto">
+            <a href="{{ route('admin.community.create') }}" class="btn btn-ku">
+                <i class="bi bi-plus-lg me-1"></i>Add Community Creation
+            </a>
+        </div>
+        <div class="col-auto">
+            <a href="{{ route('admin.developer-media.create') }}" class="btn btn-ku">
+                <i class="bi bi-plus-lg me-1"></i>Add Dev Media
             </a>
         </div>
     </div>
