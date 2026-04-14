@@ -164,6 +164,14 @@
                     <a class="nav-link {{ request()->routeIs('blog.*') ? 'active' : '' }}"
                        href="{{ route('blog.index') }}">Blog</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->routeIs('community.*') ? 'active' : '' }}"
+                       href="{{ route('community.index') }}">Community</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->routeIs('developer.*') ? 'active' : '' }}"
+                       href="{{ route('developer.index') }}">Dev Media</a>
+                </li>
             </ul>
 
             <ul class="navbar-nav ms-auto align-items-center gap-2">
