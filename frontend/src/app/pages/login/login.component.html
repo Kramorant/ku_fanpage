@@ -1,8 +1,19 @@
-<section class="login-page">
-  <h1>Login</h1>
-  <form class="login-form" (ngSubmit)="submit()">
-    <input type="email" name="email" [(ngModel)]="email" placeholder="Email" required />
-    <input type="password" name="password" [(ngModel)]="password" placeholder="Password" required />
-    <button type="submit">Sign in</button>
-  </form>
-</section>
+<div class="auth-page">
+  <div class="auth-card">
+    <div class="auth-header">
+      <span class="auth-logo">KU</span>
+      <h1>Sign In</h1>
+      <p>Welcome back, Kaiju trainer</p>
+    </div>
+    <form class="login-form" (ngSubmit)="submit()">
+      <label for="email">Email</label>
+      <input id="email" type="email" name="email" [(ngModel)]="email" placeholder="your@email.com" required />
+      <label for="password">Password</label>
+      <input id="password" type="password" name="password" [(ngModel)]="password" placeholder="••••••••" required />
+      <button type="submit">Sign In</button>
+    </form>
+    <div class="auth-footer">
+      <p>Don't have an account? <a routerLink="/register">Register here</a></p>
+    </div>
+  </div>
+</div>

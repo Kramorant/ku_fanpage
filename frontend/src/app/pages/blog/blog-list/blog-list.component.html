@@ -1,6 +1,20 @@
 <section class="blog-list-page">
-  <h1>Blog</h1>
-  <a class="blog-card" *ngFor="let post of posts" [routerLink]="['/blog', post.id]">
-    {{ post.title }}
-  </a>
+  <div class="page-hero">
+    <h1 class="page-title">BLOG</h1>
+    <p class="page-subtitle">Community posts, guides and strategies</p>
+  </div>
+  <div class="blog-grid" *ngIf="posts.length > 0; else noPosts">
+    <a class="blog-card" *ngFor="let post of posts" [routerLink]="['/blog', post.id]">
+      <div class="blog-card-accent"></div>
+      <h2 class="blog-card-title">{{ post.title }}</h2>
+      <span class="blog-card-link">Read more →</span>
+    </a>
+  </div>
+  <ng-template #noPosts>
+    <div class="coming-soon">
+      <span class="coming-soon-icon">✍️</span>
+      <h2>No Posts Yet</h2>
+      <p>Community posts and guides will appear here soon.</p>
+    </div>
+  </ng-template>
 </section>

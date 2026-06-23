@@ -1,10 +1,17 @@
 <section class="tierlist-page">
-  <h1>Tierlist</h1>
-  <button type="button" class="tierlist-download" (click)="downloadAsPng()">Download as PNG</button>
+  <div class="page-hero">
+    <h1 class="page-title">TIERLIST</h1>
+    <p class="page-subtitle">Build, customize and share your Kaiju ranking</p>
+  </div>
+  <div class="tierlist-actions">
+    <button type="button" class="btn-download" (click)="downloadAsPng()">
+      <span>📥</span> Download as PNG
+    </button>
+  </div>
 
   <div id="tierlist-board" class="tierlist-board">
     <div class="tier-row" *ngFor="let tier of tiers">
-      <div class="tier-label">{{ tier }}</div>
+      <div class="tier-label tier-label-{{tier | lowercase}}">{{ tier }}</div>
       <div class="tier-dropzone" cdkDropList [cdkDropListData]="tierItems[tier]" [cdkDropListConnectedTo]="['pool', 'S', 'A', 'B', 'C', 'D']" [id]="tier" (cdkDropListDropped)="drop($event)">
         <div class="tier-kaiju" *ngFor="let kaiju of tierItems[tier]" cdkDrag>
           {{ kaiju.name }}
@@ -12,8 +19,8 @@
       </div>
     </div>
 
-    <div class="tier-row">
-      <div class="tier-label">Pool</div>
+    <div class="tier-row tier-pool-row">
+      <div class="tier-label tier-label-pool">Pool</div>
       <div class="tier-dropzone" cdkDropList id="pool" [cdkDropListData]="unplacedKaijus" [cdkDropListConnectedTo]="['S', 'A', 'B', 'C', 'D']" (cdkDropListDropped)="drop($event)">
         <div class="tier-kaiju" *ngFor="let kaiju of unplacedKaijus" cdkDrag>
           {{ kaiju.name }}
