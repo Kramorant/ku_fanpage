@@ -1,0 +1,8 @@
+<section class="wiki-list-page">
+  <h1>Wiki</h1>
+  <div class="wiki-list-grid">
+    <a class="wiki-card" *ngFor="let kaiju of kaijus" [routerLink]="['/wiki', kaiju.id]">
+      {{ kaiju.name }}
+    </a>
+  </div>
+</section>
