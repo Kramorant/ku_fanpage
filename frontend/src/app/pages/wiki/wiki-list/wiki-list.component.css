@@ -1,0 +1,62 @@
+.wiki-list-page {
+  min-height: calc(100vh - 65px);
+  padding: 3rem 1.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.page-hero {
+  text-align: center;
+  padding: 3rem 0;
+  margin-bottom: 3rem;
+  border-bottom: 1px solid rgba(255, 69, 0, 0.15);
+}
+.page-title {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: clamp(2.5rem, 8vw, 5rem);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 6px;
+  background: linear-gradient(135deg, #ff4500, #ff6b35);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: fadeIn 0.8s ease forwards;
+}
+.page-subtitle { color: #a0a0b0; font-size: 1.1rem; margin-top: 0.8rem; letter-spacing: 1px; }
+.wiki-list-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1rem;
+}
+.wiki-card {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 1.2rem 1.4rem;
+  background: #1a1a26;
+  border: 1px solid rgba(255, 69, 0, 0.15);
+  border-radius: 8px;
+  color: #e8e8e8;
+  text-decoration: none;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  transition: all 0.3s ease;
+}
+.wiki-card:hover {
+  border-color: rgba(255, 69, 0, 0.5);
+  box-shadow: 0 0 20px rgba(255, 69, 0, 0.2);
+  transform: translateY(-3px);
+  color: #ff6b35;
+}
+.wiki-card-icon { font-size: 1.3rem; }
+.wiki-card-name { flex: 1; }
+.wiki-card-arrow { color: #a0a0b0; transition: color 0.3s ease; }
+.wiki-card:hover .wiki-card-arrow { color: #ff4500; }
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}

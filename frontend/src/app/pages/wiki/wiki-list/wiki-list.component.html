@@ -1,8 +1,13 @@
 <section class="wiki-list-page">
-  <h1>Wiki</h1>
+  <div class="page-hero">
+    <h1 class="page-title">WIKI</h1>
+    <p class="page-subtitle">Complete Kaiju Universe database</p>
+  </div>
   <div class="wiki-list-grid">
     <a class="wiki-card" *ngFor="let kaiju of kaijus" [routerLink]="['/wiki', kaiju.id]">
-      {{ kaiju.name }}
+      <span class="wiki-card-icon">🦖</span>
+      <span class="wiki-card-name">{{ kaiju.name }}</span>
+      <span class="wiki-card-arrow">→</span>
     </a>
   </div>
 </section>

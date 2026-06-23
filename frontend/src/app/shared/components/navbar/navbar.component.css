@@ -1,0 +1,87 @@
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 2rem;
+  height: 65px;
+  background: rgba(10, 10, 15, 0.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255, 69, 0, 0.2);
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);
+}
+.navbar-brand { display: flex; align-items: center; gap: 0.6rem; cursor: default; }
+.brand-logo {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #ff4500;
+  text-shadow: 0 0 15px rgba(255, 69, 0, 0.8), 0 0 30px rgba(255, 69, 0, 0.4);
+  letter-spacing: 2px;
+}
+.brand-name {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #a0a0b0;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+.navbar-links { display: flex; gap: 0.5rem; align-items: center; }
+.navbar-links a {
+  position: relative;
+  padding: 0.5rem 0.9rem;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #a0a0b0;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+.navbar-links a::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%) scaleX(0);
+  width: 80%;
+  height: 2px;
+  background: linear-gradient(90deg, #ff4500, #ff6b35);
+  border-radius: 2px;
+  transition: transform 0.3s ease;
+  box-shadow: 0 0 8px rgba(255, 69, 0, 0.6);
+}
+.navbar-links a:hover, .navbar-links a.active { color: #e8e8e8; }
+.navbar-links a:hover::after, .navbar-links a.active::after { transform: translateX(-50%) scaleX(1); }
+.navbar-auth { display: flex; align-items: center; gap: 0.8rem; }
+.nav-login {
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 600;
+  font-size: 0.95rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #a0a0b0;
+  text-decoration: none;
+  padding: 0.4rem 0.9rem;
+  transition: color 0.3s ease;
+}
+.nav-login:hover { color: #e8e8e8; }
+.nav-register {
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 700;
+  font-size: 0.95rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: white;
+  text-decoration: none;
+  padding: 0.4rem 1.1rem;
+  background: linear-gradient(135deg, #ff4500, #ff6b35);
+  border-radius: 4px;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 12px rgba(255, 69, 0, 0.4);
+}
+.nav-register:hover { box-shadow: 0 0 24px rgba(255, 69, 0, 0.8); transform: translateY(-1px); }

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NgFor } from '@angular/common';
+import { NgFor, LowerCasePipe } from '@angular/common';
 import { CdkDragDrop, DragDropModule, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import html2canvas from 'html2canvas';
 import { KaijuService } from '../../core/services/kaiju.service';
@@ -7,7 +7,7 @@ import { KaijuService } from '../../core/services/kaiju.service';
 @Component({
   selector: 'app-tierlist',
   standalone: true,
-  imports: [NgFor, DragDropModule],
+  imports: [NgFor, DragDropModule, LowerCasePipe],
   templateUrl: './tierlist.component.html',
   styleUrl: './tierlist.component.css',
 })

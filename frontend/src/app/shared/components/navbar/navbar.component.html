@@ -1,9 +1,17 @@
 <nav class="navbar">
-  <a routerLink="/">Home</a>
-  <a routerLink="/wiki">Wiki</a>
-  <a routerLink="/events">Events</a>
-  <a routerLink="/blog">Blog</a>
-  <a routerLink="/tierlist">Tierlist</a>
-  <a routerLink="/login">Login</a>
-  <a routerLink="/register">Register</a>
+  <div class="navbar-brand">
+    <span class="brand-logo">KU</span>
+    <span class="brand-name">Kaiju Universe</span>
+  </div>
+  <div class="navbar-links">
+    <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home</a>
+    <a routerLink="/wiki" routerLinkActive="active">Wiki</a>
+    <a routerLink="/events" routerLinkActive="active">Events</a>
+    <a routerLink="/blog" routerLinkActive="active">Blog</a>
+    <a routerLink="/tierlist" routerLinkActive="active">Tierlist</a>
+  </div>
+  <div class="navbar-auth">
+    <a routerLink="/login" routerLinkActive="active" class="nav-login">Login</a>
+    <a routerLink="/register" routerLinkActive="active" class="nav-register">Register</a>
+  </div>
 </nav>
